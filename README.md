@@ -7,3 +7,10 @@
  ```
  youtube-dl -x --audio-format wav "ytsearch:{<full-url-here>}"
  ```
+ Use this to activate gcloud "locally"
+ ```
+ gcloud auth login
+ gcloud auth activate-service-account <my-service-account-email> --key-file=path/to/my/jsonServiceAccountCreds
+ export GOOGLE_APPLICATION_CREDENTIALS=path/to/my/jsoncreds
+ echo $GOOGLE_APPLICATION_CREDENTIALS
+ ```
