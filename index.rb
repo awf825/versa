@@ -9,7 +9,7 @@ require 'google/cloud/speech'
 require 'google/cloud/storage'
 require 'pry'
 
-storage_path = "Path to file in Cloud Storage, eg. gs://bucket/audio.raw"
+# system 'echo hello world'
 
 speech = Google::Cloud::Speech.speech
 
@@ -26,7 +26,7 @@ bucket = storage.bucket "versa_audio"
 config = { encoding:          :FLAC,
            sample_rate_hertz: 16_000,
            language_code:     "en-US" }
-audio  = { uri: "gs://versa_audio/stress-test.flac" }
+audio  = { uri: "gs://versa_audio/ThisIsWater.flac" }
 
 operation = speech.long_running_recognize config: config, audio: audio
 
@@ -36,35 +36,11 @@ operation.wait_until_done!
 
 raise operation.results.message if operation.error?
 
-operation.results.results.first.alternatives.each do |alternatives| 
-	puts "#{alternatives.transcript}"
-end
-
-# system 'echo hello world'
-# audio = Speech::AudioToText.new("stress-test.wav")
-# puts ap audio.to_text.inspect
-# require "google/cloud/storage"
-
-# # If you don't specify credentials when constructing the client, the client
-# # library will look for credentials in the environment.
-# storage = Google::Cloud::Storage.new project: "crypto-reality-3022622"
-
-# # Make an authenticated API request
-# storage.buckets.each do |bucket|
-#   puts bucket.name
-# end
-
-# CONVERT WAV FILE TO RAW AUDIO FILE
-# system 'sox stress-test.wav stress-test.raw'
-
-# recognizer = Pocketsphinx::AudioFileSpeechRecognizer.new
-# text = []
-# recognizer.recognize('./minute-test.raw') do |speech|
-#   text << speech # => "go forward ten meters"
-# end
-
-# puts text
-#return text
+operation.results.results.each do |result|
+  result.alternatives.each do |alternative|  
+    puts "#{alternative.transcript}"    
+  end    
+end  
 
 # Pocketsphinx::LiveSpeechRecognizer.new.recognize do |speech|
 #   puts speech
