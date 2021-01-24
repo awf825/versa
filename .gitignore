@@ -1,2 +1,5 @@
 audio/
 my-json/
+
+config.ru
+.env
